@@ -11,9 +11,12 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "google-places": "0.0.2",
     "google_directions": "^0.6.0",
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "unirest": "^0.5.1",
+    "wunderground": "0.0.0"
   }
 }

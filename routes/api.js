@@ -1,16 +1,44 @@
 var express = require('express');
-var router = express.Router();
-debugger;
+var requests = require('unirest');
 var googleMaps = require('google_directions');
+var googlePlaces = require('google-places');
+var wunderground = require('wunderground')('dbb1e59d2b834089');
 
-/* GET users listing. */
-router.get('/:location/:destination', function(req, res, next) {
+var places = new googlePlaces("AIzaSyBbMbEiT7A7FEufY2pfU17JVEKs18s6fZs");
+var router = express.Router();
+
+router.get('/weather/:zipcode', function(req, res, next) {
+
+  var wunderQuery = {
+    zip: req.params.zipcode
+  };
+
+  wunderground.hourly(wunderQuery, function(err, forecasts) {
+    res.json({"weather": forecasts});
+  });
+
+});
+
+router.get('/weather/:lat/:lng', function(req, res, next) {
+
+  var wunderQuery = {
+    lat: req.params.lat,
+    lng: req.params.lng
+  };
+
+  wunderground.hourly(wunderQuery, function(err, forecasts) {
+    res.json({"weather": forecasts});
+  });
+
+});
+
+router.get('directions/:location/:destination', function(req, res, next) {
 
   var output="";
   var params = {
     origin: "Ohio Stadium",
     destination: "Canes Olentangy Ohio",
-    key: "AIzaSyAzoD6R1OJhUvM3gVSsBXuEucOMPbEjuM4"
+    key: "AIzaSyBbMbEiT7A7FEufY2pfU17JVEKs18s6fZs"
   }
 
   googleMaps.getDirectionSteps(params, function( err, steps) {
@@ -24,4 +52,6 @@ router.get('/:location/:destination', function(req, res, next) {
   });
 
 });
+
+
 module.exports = router;
