@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var api = require('./routes/api');
 var app = express();
+var apiPort = 3001;
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -35,5 +36,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({'error': err});
 });
+
+app.listen(apiPort);
 
 module.exports = app;
