@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import SearchForm from './SearchForm';
 
-class Home extends Component {
+class HomePage extends Component {
   render() {
     return (
-      <div className="Home">
+      <div className="HomePage">
 	<div className="mainSearchDiv">
 	  <SearchForm />
 	</div>
@@ -13,4 +13,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default HomePage;
