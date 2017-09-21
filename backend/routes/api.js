@@ -2,10 +2,11 @@ var express = require('express');
 var requests = require('unirest');
 var googleMaps = require('google_directions');
 var googlePlaces = require('google-places');
-var wunderground = require('wunderground')('dbb1e59d2b834089');
+var apiKeys = require('../helpers/keys');
+var wunderground = require('wunderground')(apiKeys.wunderground);
 var uriHelpers = require('../helpers/uri');
 
-var places = new googlePlaces("AIzaSyBbMbEiT7A7FEufY2pfU17JVEKs18s6fZs");
+var places = new googlePlaces(apiKeys.google);
 var router = express.Router();
 
 router.get('/weather/:zipcode', function(req, res, next) {
@@ -44,7 +45,7 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
   var params = {
     origin: origin,
     destination: destination,
-    key: "AIzaSyBbMbEiT7A7FEufY2pfU17JVEKs18s6fZs"
+    key: apiKeys.google 
   }
 
   googleMaps.getDirectionSteps(params, function( err, steps) {
