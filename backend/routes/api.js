@@ -9,38 +9,42 @@ var uriHelpers = require('../helpers/uri');
 var places = new googlePlaces(apiKeys.google);
 var router = express.Router();
 
-router.get('/weather/:zipcode', function(req, res, next) {
+function getWeatherZipcode(zip) {
 
   var wunderQuery = {
-    zip: req.params.zipcode
+    zip: zipcode
   };
 
   wunderground.hourly(wunderQuery, function(err, forecasts) {
-    res.json({"weather": forecasts});
+    return forecasts;
   });
+}
 
-});
-
-router.get('/weather/:lat/:lng', function(req, res, next) {
+function getWeatherLatLng(lat, lng) {
 
   var wunderQuery = {
-    lat: req.params.lat,
-    lng: req.params.lng
+    lat: lat,
+    lng: lng
   };
 
   wunderground.hourly(wunderQuery, function(err, forecasts) {
-    res.json({"weather": forecasts});
+    return forecasts;
   });
 
-});
+}
+
+function isNewTimeIncrement(total, time) {
+  
+
+
+}
 
 router.get('/directions/:origin/:destination', function(req, res, next) {
 
-  var originParam = uriHelpers.getTestLocation(true);
-  var destinationParam = uriHelpers.getTestLocation(false);
-
-  var origin = decodeURI(originParam);
-  var destination = decodeURI(destinationParam);
+  //var origin = decodeURI(req.params.origin);
+  //var destination = decodeURI(req.params.destination);
+  var origin = decodeURI(uriHelpers.mockOrigin);
+  var destination = decodeURI(uriHelpers.mockDestination);
 
   var params = {
     origin: origin,
@@ -48,13 +52,39 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
     key: apiKeys.google 
   }
 
-  googleMaps.getDirectionSteps(params, function( err, steps) {
-    if (err) {
-      console.log(err);
-      return 1;
+  googleMaps.getDirectionSteps(params, function(err, steps) {
+
+    var durationInSeconds = 0; 
+    var lastBreak = 0;
+    let thirtyMinutesInSeconds = 1800;
+    var breakLocations = [];
+
+    var firstStep = steps.shift();
+    durationInSeconds += firstStep.duration.value;
+    breakLocations.push(firstStep.end_location);
+
+    for(var stepIndex in steps) {
+      var step = steps[stepIndex];
+      time = step.duration.value; //Get time from step and add it to duration
+      durationInSeconds += time;
+      if(durationInSeconds - lastBreak > thirtyMinutesInSeconds) { //See if we need to check weather here
+
+        var difference = durationInSeconds - lastBreak;
+//        if (Math.floor(difference / thirtyMinutesInSeconds) == 1) { // Only one break needed
+          breakLocations.push(step.end_location);
+          lastBreak = durationInSeconds;
+          continue;
+ //       } else { //If the step's duration is longer than 30 minutes, we need to calculate it multiple stops
+  //        continue;//TODO - complete this
+   //     }
+      }
+      
     }
 
-    res.json({"directions": steps});
+    //At this point, breakLocations contains all the locations we need to check weather-wise
+    //Then return an list of objects, such as: [ { location: "location to display", weather: "weather to display" } ]
+
+    res.json({"breakLocations": breakLocations, "directions": steps});
 
   });
 
