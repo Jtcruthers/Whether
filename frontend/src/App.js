@@ -3,13 +3,20 @@ import Header from './Header';
 import HomePage from './HomePage';
 import ResultsPage from './ResultsPage';
 
-import logo from './logo.svg';
-import './App.css';
+import './css/App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasBeenSubmitted: true };
+
+    this.state = { hasBeenSubmitted: false };
+    this.handler = this.handler.bind(this);
+  }
+
+  handler(e) {
+    e.preventDefault();
+    let hasBeenSubmitted = this.state.hasBeenSubmitted || false;
+    this.setState({hasBeenSubmitted: !hasBeenSubmitted});
   }
 
   render() {
@@ -19,10 +26,10 @@ class App extends Component {
       <div className="App">
         <Header />
       {!submitted && 
-        <HomePage />
+        <HomePage handler = {this.handler} />
       }
       {submitted &&
-        <ResultsPage />
+        <ResultsPage handler = {this.handler}/>
       }
       </div>
     );

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+
 import ResultsTable from './ResultsTable';
+import HandlerButton from './HandlerButton';
+import './css/ResultsPage.css';
 
 class ResultsPage extends Component {
 
@@ -7,6 +10,7 @@ class ResultsPage extends Component {
     return (
       <div className="ResultsPage">
         <ResultsTable />
+        <HandlerButton handler={this.props.handler} />
       </div>
     );
   }
