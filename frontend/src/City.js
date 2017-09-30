@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class City extends Component {
-  render() {
-    return (
-      <div className="City">
+const City = ({props}) => (
+    <div className="City">
         <h1>Columbus</h1>
         <p>Sunny</p>
-      </div>
-    );
-  }
-}
+    </div>
+)
 
 export default City;
