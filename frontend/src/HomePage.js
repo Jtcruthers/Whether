@@ -1,19 +1,12 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import SearchForm from './SearchForm';
-import HandlerButton from './HandlerButton';
 
-class HomePage extends Component {
-  render() {
-    return (
-      <div className="HomePage">
-	<div className="mainSearchDiv">
-	  <SearchForm />
-          <HandlerButton handler={this.props.handler} />
-	</div>
+const HomePage = () => (
+    <div className="HomePage">
+      <div className="MainSearchDiv">
+          <SearchForm />
       </div>
-    );
-  }
-}
+    </div>
+);
 
 export default HomePage;

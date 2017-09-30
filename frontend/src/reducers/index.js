@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import locations from './locations';
-import todos from './todos';
+import forecasts from './forecasts';
 
 const whether = combineReducers({
     locations,
-    todos
+    forecasts
 });
 
 export default whether;

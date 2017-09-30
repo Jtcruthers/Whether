@@ -5,7 +5,6 @@ import { createStore } from 'redux';
 
 import App from './App';
 import whether from './reducers'
-import './css/index.css';
 
 let store = createStore(whether);
 
