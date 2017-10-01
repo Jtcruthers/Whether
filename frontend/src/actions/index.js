@@ -1,30 +1,37 @@
 let nextForecastId = 0;
 export const addForecast = conditions => {
-    return {
-        type: 'ADD_FORECAST',
-        id: nextForecastId,
-        conditions
-    }
+  return {
+    type: 'ADD_FORECAST',
+    id: nextForecastId,
+    conditions
+  }
 };
 
 export const editForecast = (id, conditions) => {
-    return {
-        type: 'EDIT_FORECAST',
-        id,
-        conditions
-    }
+  return {
+    type: 'EDIT_FORECAST',
+    id,
+    conditions
+  }
 };
 
-export const addOrigin = origin => {
-    return {
-        type: 'ADD_ORIGIN',
-        origin
-    }
+export const editOrigin = origin => {
+  return {
+    type: 'EDIT_ORIGIN',
+    origin
+  }
 };
 
-export const addDestination = destination => {
-    return {
-        type: 'ADD_DESTINATION',
-        destination
-    }
+export const editDestination = destination => {
+  return {
+    type: 'EDIT_DESTINATION',
+    destination
+  }
+};
+
+export const toggleSubmitted = id => {
+  return {
+    type: 'TOGGLE_SUBMITTED',
+    id
+  }
 };

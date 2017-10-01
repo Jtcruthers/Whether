@@ -1,9 +1,9 @@
 import React from 'react';
 import City from './City';
 
-const CityPage = ({ city }) => (
+const CityPage = ({city}) => (
   <div className="CityPage">
-    <City city={city} />
+    <City city={city}/>
   </div>
 );
 

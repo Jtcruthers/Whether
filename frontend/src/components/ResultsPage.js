@@ -1,11 +1,12 @@
 import React from 'react';
-
+import ToggleButton from '../components/ToggleButton';
 import ResultsTable from './ResultsTable';
-import './css/ResultsPage.css';
+import '../css/ResultsPage.css';
 
-const ResultsPage = () => (
+const ResultsPage = ({toggleSubmitted}) => (
   <div className="ResultsPage">
-    <ResultsTable />
+    <ResultsTable/>
+    <ToggleButton text="Back" onClick={toggleSubmitted}/>
   </div>
 );
 
