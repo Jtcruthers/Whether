@@ -35,3 +35,22 @@ export const toggleSubmitted = id => {
     id
   }
 };
+
+export const fetchPostsRequest = () => {
+  return {
+    type: "FETCH_REQUEST"
+  }
+};
+
+export const fetchPostsSuccess = payload => {
+  return {
+    type: "FETCH_SUCCESS",
+    payload
+  }
+};
+
+export const fetchPostsError = () => {
+  return {
+    type: "FETCH_ERROR"
+  }
+};
