@@ -1,22 +1,17 @@
-import { React } from 'react';
-import { fetchPostsRequest, fetchPostsError, fetchPostsSuccess } from "../actions/index";
+const fetchAPI = () => {
+  const url = "http://localhost:3001/api/directions/js/js";
 
-export const fetchPostsWithRedux = () => {
-  return (dispatch) => {
-    dispatch(fetchPostsRequest());
-    return fetchPosts().then(([response, json]) =>{
-      if(response.status === 200){
-        dispatch(fetchPostsSuccess(json))
-      }
-      else{
-        dispatch(fetchPostsError())
-      }
+  fetch(url)
+    .then(function(response) {
+      return response.json()
     })
-  }
+    .then(function(json) {
+      console.log(json)
+      return json
+    })
+    .catch(function(error) {
+      console.log('error', error)
+    })
 };
 
-export const fetchPosts = () => {
-  const URL = "http://localhost:3001/api/directions/js/js";
-  return fetch(URL, { method: 'GET'})
-    .then( response => Promise.all([response, response.json()]));
-};
+export default fetchAPI;
