@@ -5,13 +5,13 @@ var googlePlaces = require('google-places');
 var apiKeys = require('../helpers/keys');
 var wunderground = require('wunderground')(apiKeys.wunderground);
 var uriHelpers = require('../helpers/uri');
+var cors = require('cors');
 
 var places = new googlePlaces(apiKeys.google);
 var router = express.Router();
 
 function getWeatherZipcode(zip) {
-
-  var wunderQuery = {
+  let wunderQuery = {
     zip: zipcode
   };
 
@@ -22,7 +22,7 @@ function getWeatherZipcode(zip) {
 
 function getWeatherLatLng(lat, lng) {
 
-  var wunderQuery = {
+  let wunderQuery = {
     lat: lat,
     lng: lng
   };
@@ -38,6 +38,9 @@ function isNewTimeIncrement(total, time) {
 
 
 }
+
+//allow CORS
+router.use(cors());
 
 router.get('/directions/:origin/:destination', function(req, res, next) {
 
