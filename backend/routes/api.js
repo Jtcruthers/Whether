@@ -44,10 +44,10 @@ router.use(cors());
 
 router.get('/directions/:origin/:destination', function(req, res, next) {
 
-  //var origin = decodeURI(req.params.origin);
-  //var destination = decodeURI(req.params.destination);
-  var origin = decodeURI(uriHelpers.mockOrigin);
-  var destination = decodeURI(uriHelpers.mockDestination);
+  var origin = decodeURI(req.params.origin);
+  var destination = decodeURI(req.params.destination);
+  //var origin = decodeURI(uriHelpers.mockOrigin);
+  //var destination = decodeURI(uriHelpers.mockDestination);
 
   var params = {
     origin: origin,
