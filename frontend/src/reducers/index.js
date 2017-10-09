@@ -2,13 +2,13 @@ import {combineReducers} from 'redux';
 import locations from './locations';
 import forecasts from './forecasts';
 import submitted from './submitted';
-import apifetch from './apifetch';
+import api from './api';
 
 const whether = combineReducers({
   locations,
   forecasts,
   submitted,
-  apifetch
+  api
 });
 
 export default whether;

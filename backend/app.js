@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var api = require('./routes/api');
 var app = express();
@@ -25,6 +26,9 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+//allow CORS
+app.use(cors());
 
 // error handler
 app.use(function(err, req, res, next) {

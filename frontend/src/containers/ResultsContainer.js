@@ -1,17 +1,29 @@
 import {connect} from 'react-redux';
 import ResultsPage from '../components/ResultsPage';
-import {toggleSubmitted} from "../actions";
+import {toggleSubmitted, fetchPostsSuccess} from "../actions";
+
+const mapStateToProps = state => {
+  return {
+    origin: state.locations.origin,
+    destination: state.locations.destination,
+    breakLocations: state.api.breakLocations,
+    directions: state.api.directions
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleSubmitted: () => {
-      dispatch(toggleSubmitted())
+      dispatch(toggleSubmitted());
+    },
+    fetchPostsSuccess: payload => {
+      dispatch(fetchPostsSuccess(payload));
     }
   }
 };
 
 const ResultsContainer = connect(
-  null, // No mapStateToProps needed
+  mapStateToProps,
   mapDispatchToProps
 )(ResultsPage);
 
