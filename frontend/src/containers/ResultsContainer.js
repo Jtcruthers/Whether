@@ -5,9 +5,12 @@ import {toggleSubmitted, fetchPostsSuccess} from "../actions";
 const mapStateToProps = state => {
   return {
     origin: state.locations.origin,
-    destination: state.locations.destinationg
+    destination: state.locations.destination,
+    breakLocations: state.api.breakLocations,
+    directions: state.api.directions
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return {
     toggleSubmitted: () => {
@@ -20,7 +23,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const ResultsContainer = connect(
-  null, // No mapStateToProps needed
+  mapStateToProps,
   mapDispatchToProps
 )(ResultsPage);
 
