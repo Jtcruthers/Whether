@@ -1,43 +1,10 @@
-var express = require('express');
-var requests = require('unirest');
-var googleMaps = require('google_directions');
-var googlePlaces = require('google-places');
-var apiKeys = require('../helpers/keys');
-var wunderground = require('wunderground')(apiKeys.wunderground);
-var uriHelpers = require('../helpers/uri');
-var cors = require('cors');
-
-var places = new googlePlaces(apiKeys.google);
-var router = express.Router();
-
-function getWeatherZipcode(zip) {
-  let wunderQuery = {
-    zip: zipcode
-  };
-
-  wunderground.hourly(wunderQuery, function(err, forecasts) {
-    return forecasts;
-  });
-}
-
-function getWeatherLatLng(lat, lng) {
-
-  let wunderQuery = {
-    lat: lat,
-    lng: lng
-  };
-
-  wunderground.hourly(wunderQuery, function(err, forecasts) {
-    return forecasts;
-  });
-
-}
-
-function isNewTimeIncrement(total, time) {
-  
-
-
-}
+let express = require('express');
+let requests = require('unirest');
+let googleMaps = require('google_directions');
+let googlePlaces = require('google-places');
+let apiKeys = require('../helpers/keys');
+let places = new googlePlaces(apiKeys.google);
+let router = express.Router();
 
 //allow CORS
 router.use(cors());
@@ -46,8 +13,6 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
 
   var origin = decodeURI(req.params.origin);
   var destination = decodeURI(req.params.destination);
-  //var origin = decodeURI(uriHelpers.mockOrigin);
-  //var destination = decodeURI(uriHelpers.mockDestination);
 
   var params = {
     origin: origin,
@@ -56,6 +21,8 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
   }
 
   googleMaps.getDirectionSteps(params, function(err, steps) {
+
+    console.log(steps);
 
     var durationInSeconds = 0; 
     var lastBreak = 0;
@@ -86,8 +53,7 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
 
     //At this point, breakLocations contains all the locations we need to check weather-wise
     //Then return an list of objects, such as: [ { location: "location to display", weather: "weather to display" } ]
-
-    res.json({"breakLocations": breakLocations, "directions": steps});
+d    res.json({"breakLocations": breakLocations, "directions": steps});
 
   });
 
