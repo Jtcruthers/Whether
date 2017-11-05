@@ -1,14 +1,10 @@
-var express = require('express');
-var requests = require('unirest');
-var googleMaps = require('google_directions');
-var googlePlaces = require('google-places');
-var apiKeys = require('../helpers/keys');
-var wunderground = require('wunderground')(apiKeys.wunderground);
-var uriHelpers = require('../helpers/uri');
-var cors = require('cors');
+let express = require('express');
+let googleMaps = require('google_directions');
+let apiKeys = require('../helpers/keys');
+let wunderground = require('wunderground')(apiKeys.wunderground);
+let cors = require('cors');
 
-var places = new googlePlaces(apiKeys.google);
-var router = express.Router();
+let router = express.Router();
 
 function getWeatherZipcode(zip) {
   let wunderQuery = {
@@ -33,23 +29,24 @@ function getWeatherLatLng(lat, lng) {
 
 }
 
-function isNewTimeIncrement(total, time) {
-  
-
+function breakStep(step, totalDistance) {
+  let distance = step.distance.value;
+  let breaks = [];
 
 }
+
 
 //allow CORS
 router.use(cors());
 
 router.get('/directions/:origin/:destination', function(req, res, next) {
 
-  var origin = decodeURI(req.params.origin);
-  var destination = decodeURI(req.params.destination);
+  let origin = decodeURI(req.params.origin);
+  let destination = decodeURI(req.params.destination);
   //var origin = decodeURI(uriHelpers.mockOrigin);
   //var destination = decodeURI(uriHelpers.mockDestination);
 
-  var params = {
+  let params = {
     origin: origin,
     destination: destination,
     key: apiKeys.google 
@@ -57,29 +54,23 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
 
   googleMaps.getDirectionSteps(params, function(err, steps) {
 
-    var durationInSeconds = 0; 
-    var lastBreak = 0;
-    let thirtyMinutesInSeconds = 1800;
-    var breakLocations = [];
+    let distanceInMeters = 0;
+    let lastBreak = 0;
+    let mileInMeters = 1610;
+    let breakLocations = [];
 
-    var firstStep = steps.shift();
-    durationInSeconds += firstStep.duration.value;
+    let firstStep = steps.shift();
+    distanceInMeters += firstStep.distance.value;
     breakLocations.push(firstStep.end_location);
 
-    for(var stepIndex in steps) {
-      var step = steps[stepIndex];
-      time = step.duration.value; //Get time from step and add it to duration
-      durationInSeconds += time;
-      if(durationInSeconds - lastBreak > thirtyMinutesInSeconds) { //See if we need to check weather here
-
-        var difference = durationInSeconds - lastBreak;
-//        if (Math.floor(difference / thirtyMinutesInSeconds) == 1) { // Only one break needed
-          breakLocations.push(step.end_location);
-          lastBreak = durationInSeconds;
-          continue;
- //       } else { //If the step's duration is longer than 30 minutes, we need to calculate it multiple stops
-  //        continue;//TODO - complete this
-   //     }
+    for(let stepIndex in steps) {
+      let step = steps[stepIndex];
+      time = step.distance.value; //Get time from step and add it to duration
+      distanceInMeters += time;
+      if(distanceInMeters - lastBreak > mileInMeters) { //See if we need to check weather here
+        let difference = distanceInMeters - lastBreak;
+        breakLocations.push(step.end_location);
+        lastBreak = distanceInMeters;
       }
       
     }
