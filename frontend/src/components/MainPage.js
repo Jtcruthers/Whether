@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from './Header';
 import HomeContainer from '../containers/HomeContainer';
 import ResultsContainer from '../containers/ResultsContainer';
+import styles from '../css/MainPage.css';
 
 class MainPage extends Component {
   constructor(props) {
