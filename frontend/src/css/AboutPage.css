@@ -1,0 +1,22 @@
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    width: 600px;
+    margin: auto;
+    margin-bottom: 150px;
+}
+.FAQ {
+    width: 600px;
+    margin: auto;
+}
+
+.answer {
+    text-align: center;
+}
+
+.question {
+    text-align: center;
+}
