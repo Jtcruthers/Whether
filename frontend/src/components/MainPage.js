@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Header from './Header';
 import HomeContainer from '../containers/HomeContainer';
 import ResultsContainer from '../containers/ResultsContainer';
 import styles from '../css/MainPage.css';
@@ -28,14 +27,12 @@ class MainPage extends Component {
     if (!this.state.submitted) {
       return (
         <div className="MainContainer">
-          <Header/>
           <HomeContainer/>
         </div>
       )
     } else {
       return (
         <div className="MainContainer">
-          <Header/>
           <ResultsContainer/>
         </div>
       )

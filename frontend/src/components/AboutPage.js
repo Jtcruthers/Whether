@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styles from '../css/AboutPage.css';
 
-class MainPage extends Component {
+class AboutPage extends Component {
 
 
     render() {
@@ -30,4 +30,4 @@ class MainPage extends Component {
 
 }
 
-export default MainPage;
+export default AboutPage;

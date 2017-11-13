@@ -56,19 +56,19 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
 
     let distanceInMeters = 0;
     let lastBreak = 0;
-    let mileInMeters = 1610;
+    let mileInMeters = 16000;
     let breakLocations = [];
 
     let firstStep = steps.shift();
     distanceInMeters += firstStep.distance.value;
-    breakLocations.push(firstStep.end_location);
+    breakLocations.push(firstStep.start_location);
 
     for(let stepIndex in steps) {
       let step = steps[stepIndex];
-      time = step.distance.value; //Get time from step and add it to duration
-      distanceInMeters += time;
-      if(distanceInMeters - lastBreak > mileInMeters) { //See if we need to check weather here
-        let difference = distanceInMeters - lastBreak;
+      distance = step.distance.value; //Get time from step and add it to duration
+      distanceInMeters += distance;
+      while(distanceInMeters - lastBreak > mileInMeters) { //See if we need to check weather here
+        let breakDistance = mileInMeters * breakLocations.length;
         breakLocations.push(step.end_location);
         lastBreak = distanceInMeters;
       }

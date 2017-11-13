@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from '../logo.svg';
 import styles from '../css/Header.css'
+import {Link} from 'react-router-dom'
 
 const Header = () => (
       <div className="topnav">
-              <a className="active" href="#">Home</a>
-              <a href="#">About</a>
-              <a href="#">Services</a>
+              <Link to="/">Home</Link>
+              <Link to="/about">About</Link>
+              <Link to="/">Services</Link>
               <span>Whether</span>
       </div>
 );
