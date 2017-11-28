@@ -6,35 +6,40 @@ let cors = require('cors');
 
 let router = express.Router();
 
-function getWeatherZipcode(zip) {
-  let wunderQuery = {
-    zip: zipcode
-  };
-
-  wunderground.hourly(wunderQuery, function(err, forecasts) {
-    return forecasts;
-  });
-}
-
-function getWeatherLatLng(lat, lng) {
-
-  let wunderQuery = {
-    lat: lat,
-    lng: lng
-  };
-
-  wunderground.hourly(wunderQuery, function(err, forecasts) {
-    return forecasts;
-  });
-
-}
-
 function breakStep(step, totalDistance) {
   let distance = step.distance.value;
   let breaks = [];
 
 }
 
+function getWeatherLatLng(lat, lng) {
+
+    return new Promise(function(resolve, reject) {
+        let wunderQuery = {
+            lat: lat,
+            lng: lng
+        };
+
+        wunderground.hourly(wunderQuery, function(err, forecasts) {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(forecasts);
+            }
+        });
+    });
+
+}
+
+async function getWeatherForBreaks(breaks) {
+    let weatherBreaks = [];
+    for (let brake of breaks) {
+        let weather = await getWeatherLatLng(brake.lat, brake.lng); //do the wunderground query
+        weatherBreaks.push({"weather": weather, "location": brake});
+    }
+
+    return weatherBreaks;
+}
 
 //allow CORS
 router.use(cors());
@@ -52,7 +57,7 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
     key: apiKeys.google 
   }
 
-  googleMaps.getDirectionSteps(params, function(err, steps) {
+  googleMaps.getDirectionSteps(params, async function(err, steps) {
 
     let distanceInMeters = 0;
     let lastBreak = 0;
@@ -77,8 +82,8 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
 
     //At this point, breakLocations contains all the locations we need to check weather-wise
     //Then return an list of objects, such as: [ { location: "location to display", weather: "weather to display" } ]
-
-    res.json({"breakLocations": breakLocations, "directions": steps});
+    let weatherForBreaks = await getWeatherForBreaks(breakLocations);
+    res.json({"weather": weatherForBreaks, "directions": steps});
 
   });
 
