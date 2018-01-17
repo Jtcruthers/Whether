@@ -4,6 +4,7 @@ let apiKeys = require('../helpers/keys');
 let wunderground = require('wunderground')(apiKeys.wunderground);
 let cors = require('cors');
 var geocoder = require('local-reverse-geocoder');
+let retry = require('async-retry');
 
 let router = express.Router();
 
@@ -21,12 +22,15 @@ function getWeatherLatLng(lat, lng) {
             lng: lng
         };
 
-        wunderground.hourly(wunderQuery, function(err, forecasts) {
-          if (err) {
-                reject(err);
-          } else {
-                resolve(forecasts); //when altering forecasts, our api messes up. not sure if altering things not yet gotten yet?
-            }
+        wunderground.hourly(wunderQuery, function (err, forecasts) {
+          if (err)
+            reject(err);
+          else {
+            if (forecasts.hourly_forecast == null || forecasts.hourly_forecast.length == 0)
+              reject({});
+            else
+              resolve(forecasts.hourly_forecast); //when altering forecasts, our api messes up. not sure if altering things not yet gotten yet?
+          }
         });
     });
 
@@ -53,11 +57,20 @@ function reverseGeocode(lat, lng) {
 async function getWeatherForBreaks(breaks) {
     let weatherBreaks = [];
     for (let brake of breaks) {
-        let location = brake.location;
-        let durationInHours = brake.durationInHours;
-        let weather = await getWeatherLatLng(location.lat, location.lng); 
-        let cityName = await reverseGeocode(location.lat, location.lng);
-        weatherBreaks.push({ "weather": weather, "cityName": cityName, "durationInHours": durationInHours });
+      let location = brake.location;
+      let durationInHours = brake.durationInHours;
+
+      //sometimes the hourly_forecast was blank, so we retry until there are no rejections
+      let weather = await retry(async (bail, number) => {
+        console.log(number);
+        let weather = await getWeatherLatLng(location.lat, location.lng);
+
+        return weather;
+      }, { retries: 500 });
+
+
+      let cityName = await reverseGeocode(location.lat, location.lng);
+      weatherBreaks.push({ "weather": weather[durationInHours], "cityName": cityName, "durationInHours": durationInHours });
     }
 
     return weatherBreaks;
