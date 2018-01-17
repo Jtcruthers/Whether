@@ -22,10 +22,10 @@ function getWeatherLatLng(lat, lng) {
         };
 
         wunderground.hourly(wunderQuery, function(err, forecasts) {
-            if(err) {
+          if (err) {
                 reject(err);
-            } else {
-                resolve(forecasts.hourly_forecast);
+          } else {
+                resolve(forecasts); //when altering forecasts, our api messes up. not sure if altering things not yet gotten yet?
             }
         });
     });
@@ -45,7 +45,7 @@ function reverseGeocode(lat, lng) {
             if (err)
                 reject(err);
             else
-                resolve(res[0][0].name);
+                resolve(res[0][0].name); //only send the actual name of the city
         });
     });
 }
@@ -55,9 +55,9 @@ async function getWeatherForBreaks(breaks) {
     for (let brake of breaks) {
         let location = brake.location;
         let durationInHours = brake.durationInHours;
-        let weather = await getWeatherLatLng(location.lat, location.lng); //do the wunderground query
+        let weather = await getWeatherLatLng(location.lat, location.lng); 
         let cityName = await reverseGeocode(location.lat, location.lng);
-        weatherBreaks.push({ "weather": weather, "cityName": cityName, "durationInHours": durationInHours});
+        weatherBreaks.push({ "weather": weather, "cityName": cityName, "durationInHours": durationInHours });
     }
 
     return weatherBreaks;
