@@ -6,9 +6,23 @@
 
 .ResultsPage h2 {
     margin: auto;
+    text-align: center;
 }
 
 .Spinner {
     padding: 25px;
     margin:  200px auto;
+}
+
+.ResultsTable {
+    text-align: center;
+}
+
+.ResultsTable table {
+    margin: auto;
+}
+
+.ResultsPage button {
+    margin: 20px auto;
+    display: block;
 }

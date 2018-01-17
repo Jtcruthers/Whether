@@ -4,4 +4,14 @@
     margin: auto;
     padding: auto;
     width: 200px;
+    text-align: center;
+}
+
+.topnav {
+    text-align: center;
+}
+
+.HomePage button {
+    display: block;
+    margin: auto;
 }
