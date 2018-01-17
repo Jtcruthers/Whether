@@ -1,8 +1,7 @@
 const defaultState = {
-  rawData: null,
   fetched: false,
   directions: [],
-  breakLocations: []
+  cities: []
 };
 
 const api = (state = defaultState, action) => {
@@ -14,7 +13,6 @@ const api = (state = defaultState, action) => {
       const cities = action.payload.weather;
       return {
         ...state,
-        rawData: action.payload,
         fetched: true,
         directions,
         cities

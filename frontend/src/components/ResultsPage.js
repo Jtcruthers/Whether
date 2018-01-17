@@ -24,7 +24,7 @@ class ResultsPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-      this.setState({ breakLocations: props.breakLocations, directions: props.directions, fetched: props.fetched }); // This will update your component.
+      this.setState({ cities: props.cities, directions: props.cities, fetched: props.fetched }); // This will update your component.
   }
 
   render() {

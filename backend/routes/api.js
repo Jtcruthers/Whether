@@ -25,7 +25,7 @@ function getWeatherLatLng(lat, lng) {
             if(err) {
                 reject(err);
             } else {
-                resolve(forecasts);
+                resolve(forecasts.hourly_forecast);
             }
         });
     });
@@ -45,7 +45,7 @@ function reverseGeocode(lat, lng) {
             if (err)
                 reject(err);
             else
-                resolve(res);
+                resolve(res[0][0].name);
         });
     });
 }
@@ -53,9 +53,11 @@ function reverseGeocode(lat, lng) {
 async function getWeatherForBreaks(breaks) {
     let weatherBreaks = [];
     for (let brake of breaks) {
-        let weather = await getWeatherLatLng(brake.lat, brake.lng); //do the wunderground query
-        let location = await reverseGeocode(brake.lat, brake.lng);
-        weatherBreaks.push({ "weather": weather, "location": location});
+        let location = brake.location;
+        let durationInHours = brake.durationInHours;
+        let weather = await getWeatherLatLng(location.lat, location.lng); //do the wunderground query
+        let cityName = await reverseGeocode(location.lat, location.lng);
+        weatherBreaks.push({ "weather": weather, "cityName": cityName, "durationInHours": durationInHours});
     }
 
     return weatherBreaks;
@@ -73,8 +75,6 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
 
   let origin = decodeURI(req.params.origin);
   let destination = decodeURI(req.params.destination);
-  //var origin = decodeURI(uriHelpers.mockOrigin);
-  //var destination = decodeURI(uriHelpers.mockDestination);
 
   let params = {
     origin: origin,
@@ -85,21 +85,26 @@ router.get('/directions/:origin/:destination', function(req, res, next) {
   googleMaps.getDirectionSteps(params, async function(err, steps) {
 
     let distanceInMeters = 0;
+    let durationInSeconds = 0;
     let lastBreak = 0;
     let mileInMeters = 16000;
+    let hourInSeconds = 3600;
     let breakLocations = [];
 
     let firstStep = steps.shift();
     distanceInMeters += firstStep.distance.value;
-    breakLocations.push(firstStep.start_location);
+    breakLocations.push({ 'location': firstStep.start_location, 'durationInHours': 0 });
 
     for(let stepIndex in steps) {
       let step = steps[stepIndex];
       distance = step.distance.value; //Get time from step and add it to duration
+      duration = step.duration.value;
       distanceInMeters += distance;
+      durationInSeconds += duration;
       while(distanceInMeters - lastBreak > mileInMeters) { //See if we need to check weather here
         let breakDistance = mileInMeters * breakLocations.length;
-        breakLocations.push(step.end_location);
+        let durationInHours = Math.round(durationInSeconds / hourInSeconds);
+        breakLocations.push({ 'location': step.end_location, 'durationInHours': durationInHours });
         lastBreak = distanceInMeters;
       }
       
