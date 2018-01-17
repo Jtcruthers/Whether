@@ -15,7 +15,6 @@ class City extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="City">
         <h3>{this.state.name}</h3>
