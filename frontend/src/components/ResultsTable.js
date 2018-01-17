@@ -22,9 +22,9 @@ class ResultsTable extends React.Component {
       <div className="ResultsTable">
         <table>
           <tbody>
-            {this.state.directions.map(function(direction){
+            {this.state.directions.map(function(direction, id){
               return (
-                <tr>
+                <tr key={id}>
                   <td>{direction.html_instructions.replace(/<\/?[^>]+(>|$)/g, "")}</td>
                 </tr>
               )

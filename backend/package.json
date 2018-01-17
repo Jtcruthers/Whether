@@ -6,19 +6,20 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@google/maps": "^0.4.3",
+    "@google/maps": "^0.4.5",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
-    "debug": "~2.6.3",
-    "express": "~4.15.2",
+    "debug": "^2.6.9",
+    "express": "^4.15.5",
     "g": "^2.0.1",
     "google-places": "0.0.2",
     "google_directions": "^0.6.0",
     "jade": "~1.11.0",
+    "local-reverse-geocoder": "^0.4.1",
     "morgan": "~1.8.1",
     "react-tools": "^0.13.3",
-    "serve-favicon": "~2.4.2",
+    "serve-favicon": "^2.4.5",
     "unirest": "^0.5.1",
     "wunderground": "0.0.0"
   }

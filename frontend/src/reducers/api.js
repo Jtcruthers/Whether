@@ -11,13 +11,13 @@ const api = (state = defaultState, action) => {
       return state;
     case 'FETCH_SUCCESS':
       const directions = action.payload.directions;
-      const breakLocations = action.payload.breakLocations;
+      const cities = action.payload.weather;
       return {
         ...state,
         rawData: action.payload,
         fetched: true,
         directions,
-        breakLocations
+        cities
       };
     default:
       return state;
