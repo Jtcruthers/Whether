@@ -5,6 +5,8 @@ import Cities from './Cities';
 import ToggleButton from './ToggleButton';
 import '../css/ResultsPage.css';
 
+let Spinner = require('react-spinkit');
+
 
 class ResultsPage extends React.Component {
 
@@ -30,19 +32,23 @@ class ResultsPage extends React.Component {
   }
 
   render() {
-
-    return (
-        <div className="ResultsPage">
-        <h2>Weather Along The Trip</h2>
-        <Cities cities={this.state.cities} />
-          <h2>Directions</h2>
-          <Directions directions={this.state.directions} />
-          <ToggleButton text="Back" onClick={this.props.toggleSubmitted} />
-      </div>
-      )
-
+      if (this.state.fetched) {
+          return (
+              <div className="ResultsPage">
+                  <h2>Weather Along The Trip</h2>
+                  <Cities cities={this.state.cities} />
+                  <h2>Directions</h2>
+                  <Directions directions={this.state.directions} />
+                  <ToggleButton text="Back" onClick={this.props.toggleSubmitted} />
+              </div>
+          )
+      } else
+          return (
+              <div className="ResultsPageLoading">
+                  <Spinner name='double-bounce' />
+              </div>
+          )
   }
-
 };
 
 export default ResultsPage;
