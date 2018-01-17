@@ -1,8 +1,8 @@
-h1 {
+.AboutPage h1 {
     text-align: center;
 }
 
-p {
+.AboutPage p {
     text-align: center;
     width: 600px;
     margin: auto;

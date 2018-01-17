@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import styles from '../css/AboutPage.css';
+import '../css/AboutPage.css';
 
 class AboutPage extends Component {
 

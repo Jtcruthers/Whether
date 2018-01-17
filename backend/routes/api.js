@@ -23,9 +23,10 @@ function getWeatherLatLng(lat, lng) {
         };
 
         wunderground.hourly(wunderQuery, function (err, forecasts) {
-          if (err)
+          if (err) {
+            console.log(err);
             reject(err);
-          else {
+          } else {
             if (forecasts.hourly_forecast == null || forecasts.hourly_forecast.length == 0)
               reject({});
             else

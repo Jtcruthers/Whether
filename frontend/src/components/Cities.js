@@ -1,6 +1,8 @@
 import React from 'react';
 import City from './City';
-import '../css/ResultsPage.css';
+import '../css/Cities.css';
+
+let Spinner = require('react-spinkit');
 
 class Cities extends React.Component {
 
@@ -23,8 +25,8 @@ class Cities extends React.Component {
         <div className="CityPage">
           {this.state.cities.map(function (city, id) {
             return (
-              <div key={id} className={"CityDiv"}>
-                <City name={city.cityName} weather={city.weather} />
+              <div key={id} className="CityDiv">
+                <City name={city.cityName} weather={city.weather} id={id}/>
               </div>
             )
           })}
@@ -33,7 +35,7 @@ class Cities extends React.Component {
     } else
       return (
         <div className="CityPage">
-          <p>loading cities</p>
+          <Spinner className={"Spinner"} />
         </div>
       )
   }

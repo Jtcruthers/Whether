@@ -1,6 +1,5 @@
 import React from 'react';
-import '../css/ResultsPage.css';
-
+import '../css/City.css'
 
 class City extends React.Component {
 
@@ -8,20 +7,25 @@ class City extends React.Component {
     super(props);
 
     this.state = {
-      name: props.name, weather: props.weather };
+      name: props.name, weather: props.weather, id: props.id };
   }
 
   componentWillReceiveProps(props) {
     console.log(this.state.name + "is changing props");
-    this.setState({ name: props.name, weather: props.weather }); // This will update your component.
+    this.setState({ name: props.name, weather: props.weather, id: props.id }); // This will update your component.
   }
 
   render() {
     console.log(this.state);
     return (
-      <div className="City">
-        <h3>{this.state.name}</h3>
-        <p>{this.state.weather.condition}</p>
+      <div className="City w3-card">
+        <header className="w3-container w3-green">
+          <h3>{this.state.id + 1} - {this.state.name}</h3>
+        </header>
+        <div className="w3-container data">
+          <p>{this.state.weather.condition}</p>
+          <p>{this.state.weather.temp.english} F &#176;</p>
+        </div>
       </div>
     )
   }

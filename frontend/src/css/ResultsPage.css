@@ -1,8 +1,14 @@
 
 .ResultsPage {
+  width: inherit;
   margin: auto;
 }
 
-.ResultsTable table {
-  margin: 0 auto;
+.ResultsPage h2 {
+    margin: auto;
+}
+
+.Spinner {
+    padding: 25px;
+    margin:  200px auto;
 }

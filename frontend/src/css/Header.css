@@ -28,11 +28,12 @@
 }
 
 span {
-    float: left;
     display: block;
     color: #4CAF50;
     text-align: center;
-    padding: 14px 460px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin: auto;
     text-decoration: none;
     font-size: 22px;
 }
