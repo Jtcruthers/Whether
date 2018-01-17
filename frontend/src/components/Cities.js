@@ -7,7 +7,7 @@ class Cities extends React.Component {
   constructor(props) {
     super(props);
 
-    tFhourlyis.state = {
+    this.state = {
       cities: props.cities
     };
   }
