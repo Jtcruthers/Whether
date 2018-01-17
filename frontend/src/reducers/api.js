@@ -15,7 +15,8 @@ const api = (state = defaultState, action) => {
         ...state,
         fetched: true,
         directions,
-        cities
+        cities,
+        raw: action.payload
       };
     default:
       return state;

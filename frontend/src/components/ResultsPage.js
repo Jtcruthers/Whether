@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import Directions from './Directions';
+import Cities from './Cities';
+import ToggleButton from './ToggleButton';
 import '../css/ResultsPage.css';
 
 
@@ -9,7 +11,7 @@ class ResultsPage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { fetched: props.fetched };
+        this.state = { fetched: props.fetched, directions: [], cities: [] };
     }
 
   componentDidMount() {
@@ -24,17 +26,20 @@ class ResultsPage extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-      this.setState({ cities: props.cities, directions: props.cities, fetched: props.fetched }); // This will update your component.
+      this.setState({ cities: props.cities, directions: props.directions, fetched: props.fetched }); // This will update your component.
   }
 
   render() {
 
     return (
-      <div className="ResultsPage">
-        <h2>Directions</h2>
-        <Directions directions={this.props.directions} />
+        <div className="ResultsPage">
+        <h2>Weather Along The Trip</h2>
+        <Cities cities={this.state.cities} />
+          <h2>Directions</h2>
+          <Directions directions={this.state.directions} />
+          <ToggleButton text="Back" onClick={this.props.toggleSubmitted} />
       </div>
-    )
+      )
 
   }
 

@@ -6,7 +6,7 @@ const mapStateToProps = state => {
   return {
     origin: state.locations.origin,
     destination: state.locations.destination,
-    breakLocations: state.api.breakLocations,
+    cities: state.api.cities,
     directions: state.api.directions,
     fetched: state.api.fetched
   }
