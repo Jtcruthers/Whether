@@ -3,6 +3,7 @@ let googleMaps = require('google_directions');
 let apiKeys = require('../helpers/keys');
 let wunderground = require('wunderground')(apiKeys.wunderground);
 let cors = require('cors');
+var geocoder = require('local-reverse-geocoder');
 
 let router = express.Router();
 
@@ -31,11 +32,30 @@ function getWeatherLatLng(lat, lng) {
 
 }
 
+function reverseGeocode(lat, lng) {
+
+    return new Promise(function(resolve, reject) {
+        let point = {
+            'latitude': lat,
+            'longitude': lng
+        };
+
+        geocoder.lookUp(point, function (err, res) {
+
+            if (err)
+                reject(err);
+            else
+                resolve(res);
+        });
+    });
+}
+
 async function getWeatherForBreaks(breaks) {
     let weatherBreaks = [];
     for (let brake of breaks) {
         let weather = await getWeatherLatLng(brake.lat, brake.lng); //do the wunderground query
-        weatherBreaks.push({"weather": weather, "location": brake});
+        let location = await reverseGeocode(brake.lat, brake.lng);
+        weatherBreaks.push({ "weather": weather, "location": location});
     }
 
     return weatherBreaks;
@@ -43,6 +63,11 @@ async function getWeatherForBreaks(breaks) {
 
 //allow CORS
 router.use(cors());
+
+//init geocoder
+geocoder.init({}, function () {
+    // geocoder is loaded and ready to run
+});
 
 router.get('/directions/:origin/:destination', function(req, res, next) {
 
